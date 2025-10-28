@@ -12,13 +12,12 @@ jobs:
           sudo apt update
           sudo apt install -y python3 python3-pip git sudo
 
-      - name: Shallow clone pmbootstrap (depth 1, no auth)
+      - name: Shallow clone pmbootstrap (no auth)
         run: |
-          # 公开仓库无需认证，直接浅克隆
           git clone --depth 1 https://github.com/postmarketOS/pmbootstrap.git
           cd pmbootstrap
           pip install --user .
-          echo "PATH=/data/data/com.termux/files/home/.local/bin:/data/data/com.termux/files/usr/bin" >> 
+          echo "PATH=/data/data/com.termux/files/home/.local/bin:/data/data/com.termux/files/home/.local/bin:/data/data/com.termux/files/usr/bin" >> 
 
       - name: Initialize pmbootstrap
         run: |
