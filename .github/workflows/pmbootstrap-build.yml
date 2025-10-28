@@ -1,5 +1,4 @@
 name: PMbootstrap Build for Xiaomi Gemini
-# 定义触发事件（推送代码时触发）
 on: [push]
 jobs:
   build:
@@ -13,8 +12,9 @@ jobs:
           sudo apt update
           sudo apt install -y python3 python3-pip git sudo
 
-      - name: Shallow clone pmbootstrap (depth 1)
+      - name: Shallow clone pmbootstrap (depth 1, no auth)
         run: |
+          # 公开仓库无需认证，直接浅克隆
           git clone --depth 1 https://github.com/postmarketOS/pmbootstrap.git
           cd pmbootstrap
           pip install --user .
