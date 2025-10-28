@@ -7,20 +7,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: Clone pmbootstrap (with token)
         run: |
-          sudo apt update
-          sudo apt install -y python3 python3-pip python3-venv git sudo
-
-      - name: Install pmbootstrap
-        run: |
-          python3 -m venv venv
-          source venv/bin/activate
-          pip install pmbootstrap==3.6.0
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/postmarketOS/pmbootstrap.git
+          cd pmbootstrap
+          pip install --user .
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Init & Build
         run: |
-          source venv/bin/activate
+          export PATH=$HOME/.local/bin:$PATH
           pmbootstrap init <<EOF
           gemini
           postmarketOS Edge
