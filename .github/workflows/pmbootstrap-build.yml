@@ -7,15 +7,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install system dependencies
+      - name: Install full system dependencies
         run: |
           sudo apt update
-          sudo apt install -y python3 python3-pip git sudo
+          sudo apt install -y python3 python3-pip python3-venv git sudo
 
-      - name: Install pmbootstrap via pip
+      - name: Create venv and install pmbootstrap
         run: |
-          pip install --user pmbootstrap==3.6.0
-          echo "PATH=/data/data/com.termux/files/home/.local/bin:/data/data/com.termux/files/home/.local/bin:/data/data/com.termux/files/usr/bin" >> 
+          python3 -m venv pmb-venv
+          source pmb-venv/bin/activate
+          pip install pmbootstrap==3.6.0
+          echo "source /data/data/com.termux/files/home/pmos-xiaomi-gemini-build/pmb-venv/bin/activate" >> 
 
       - name: Initialize pmbootstrap
         run: |
