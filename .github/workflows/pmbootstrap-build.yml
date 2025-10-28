@@ -1,1 +1,33 @@
-# 粘贴上述完整YAML内容
+name: PMbootstrap Build for Xiaomi Gemini
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3 python3-pip git sudo
+
+      - name: Install pmbootstrap
+        run: |
+          pip install --user pmbootstrap
+          echo "PATH=/data/data/com.termux/files/home/.local/bin:/data/data/com.termux/files/usr/bin" >> 
+
+      - name: Initialize pmbootstrap
+        run: |
+          pmbootstrap --version
+          pmbootstrap init <<EOF
+          gemini
+          postmarketOS Edge
+          mainline
+          none
+          ext4
+          4
+          EOF
+
+      - name: Build the image
+        run: pmbootstrap build
