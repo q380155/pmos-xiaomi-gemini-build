@@ -1,31 +1,30 @@
-name: Build postmarketOS
-
-on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
-
+name: PMbootstrap Build
+on: [push]
 jobs:
   build:
-    runs-on: ubuntu-22.04
-    timeout-minutes: 180
-    
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup environment
-      run: |
-        chmod +x ./scripts/setup-environment.sh
-        ./scripts/setup-environment.sh
-        
-    - name: Build image
-      run: |
-        chmod +x ./scripts/build-image.sh
-        ./scripts/build-image.sh
-        
-    - name: Upload image
-      uses: actions/upload-artifact@v4
-      with:
-        name: pmos-xiaomi-gemini
-        path: ~/.local/var/pmbootstrap/**/*.img.xz
-        retention-days: 30
+      - uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3 python3-pip git
+      - name: Clone PMbootstrap
+        run: git clone https://github.com/postmarketOS/pmbootstrap.git
+      - name: Set Up PMbootstrap
+        run: |
+          cd pmbootstrap
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install .
+      - name: Import Local Config
+        run: |
+          cd pmbootstrap
+          source venv/bin/activate
+          # 导入本地导出的配置
+          pmbootstrap config import ../pmbootstrap_config.cfg
+      - name: Start Build
+        run: |
+          cd pmbootstrap
+          source venv/bin/activate
+          pmbootstrap install
