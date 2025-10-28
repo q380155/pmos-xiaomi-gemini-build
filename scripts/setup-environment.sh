@@ -10,12 +10,15 @@ sudo apt-get install -y \
     build-essential curl wget file \
     qemu-user-static binfmt-support
 
-# 官方推荐的 pmbootstrap 安装方法
+# 方法：直接使用 git clone 和 setup.py
 echo "安装 pmbootstrap..."
-git clone https://git.postmarketos.org/postmarketOS/pmbootstrap.git ~/pmbootstrap
-cd ~/pmbootstrap
-pip3 install --user .
+cd /tmp
+git clone --depth 1 https://git.postmarketos.org/postmarketOS/pmbootstrap.git
+cd pmbootstrap
+python3 setup.py install --user
 
 # 设置 PATH
 export PATH="$HOME/.local/bin:$PATH"
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+
 echo "环境设置完成"
