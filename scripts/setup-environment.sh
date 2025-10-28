@@ -10,15 +10,11 @@ sudo apt-get install -y \
     build-essential curl wget file \
     qemu-user-static binfmt-support
 
-# 方法：直接使用 git clone 和 setup.py
+# Alpine Linux 社区的方法
 echo "安装 pmbootstrap..."
-cd /tmp
-git clone --depth 1 https://git.postmarketos.org/postmarketOS/pmbootstrap.git
-cd pmbootstrap
-python3 setup.py install --user
+git clone https://gitlab.com/postmarketOS/pmbootstrap.git /tmp/pmbootstrap
+cd /tmp/pmbootstrap
+pip3 install --user .
 
-# 设置 PATH
 export PATH="$HOME/.local/bin:$PATH"
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-
 echo "环境设置完成"
